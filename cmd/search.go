@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 	"strings"
-	"willbehn/ht/internal"
-	"willbehn/ht/models"
+	"willbehn/what-the-terminal/internal"
+	"willbehn/what-the-terminal/models"
 
 	"github.com/spf13/cobra"
 )

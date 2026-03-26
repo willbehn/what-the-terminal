@@ -1,72 +1,86 @@
-# go-comman-log
+# wtt — What The Terminal 
 
-A lightweight command-line tool that records shell commands to a local SQLite database. This is a work in progress, but the goal is to offer som stats on your shell habits, and to make it easy to search for and use previous used commands. 
+What The Terminal is a command-line tool that records shell commands in a local SQLite database, so you can review, search, and analyze your terminal history.
 
-The CLI is created using golang with cobra, which is a first, so feel free to fork and add pull requests/ suggestions.
-
-> Heads up: After enabling the hook in `.zshrc`-file all terminal commands will be logged. The SQLite database is currently **not encrypted** in any way, so be careful not to log anything secret or sensitive. If you start a command with **space** the command will not be logged. Specific keywords and phrases can be added to an ignore list, see `scripts/crumb-preexec.zsh`.
-
-
-## Demo
-
-![Made with VHS](https://vhs.charm.sh/vhs-5uHwmJTSilN6JYZbsxwpGQ.gif)
 
 ## Prerequisites
-- Go installed
+- Go
 - Zsh
 
-## Install 
-> The install is currently very convoluted and wierd, will fix soon
+## Install locally
 
-Clone the repository
 ```bash
-git clone https://github.com/yourname/go-command-log
-```
-
-Build the binary 
-```bash
-mkdir -p "<absolute-file-path>/go-command-log/bin" "<absolute-file-path>/go-command-log/database"
-cd "<absolute-file-path>/go-command-log"
-go build -o bin/commandlog
+git clone https://github.com/willbehn/what-the-terminal
+cd what-the-terminal
+mkdir -p bin database
+go build -o bin/wtt .
 ```
 
 ## Enable shell logging
-Add this to **~/.zshrc**:
+Add this to your `~/.zshrc`:
+
 ```bash
-# Crumb
-export CL_BIN="<absolute-file-path>go-command-log/bin/commandlog"
-export CL_DB="<absolute-file-path>/go-command-log/database/history.db"
+# what-the-terminal
+export WTT_BIN="/absolute/path/to/what-the-terminal/bin/wtt"
+export WTT_DB="/absolute/path/to/what-the-terminal/database/history.db"
 
-export PATH="<absolute-file-path>/go-command-log/bin:$PATH"
+export PATH="/absolute/path/to/what-the-terminal/bin:$PATH"
+source "/absolute/path/to/what-the-terminal/scripts/wtt-preexec.zsh"
 
-source "<absolute-file-path>/go-command-log/scripts/crumb-preexec.zsh"
-
-# (Optional) short alias
-alias cl=$CL_BIN
 ```
 
-Then reload your shell:
+Reload shell:
+
 ```bash
 source ~/.zshrc
 ```
 
-Run `crumb init` to initalise database with schema
+Initialize DB schema:
 
 ```bash
-commandlog init
+wtt init
 ```
 
-## Security and privacy
+## Supported commands
 
-- Database is stored at `$CL_DB` and is **unencrypted**.
-To avoid logging a command: start the line with a space, or add patterns to the ignore list in `scripts/crumb-preexec.zsh`.
-Consider adding `database/history.db` to your .gitignore.
+### `wtt` (root)
+Base command that exposes all subcommands below.
+
+Global flags:
+- `-l, --long` show long output for commands that print command history (`recent`, `search`)
+
+### `wtt init`
+Initializes the SQLite database schema.
+
+### `wtt recent [count]`
+Shows the most recent commands from the database.
+- Default count is `10`
+- Pass a number to change result count, for example `wtt recent 25`
+- Use `--long` for detailed output
+
+### `wtt record`
+Inserts one command event into the database (used by the shell hook).
+
+### `wtt search <term...>`
+Searches recorded commands by one or more terms.
+
+### `wtt ask <task...>`
+Asks a local chat model for shell command guidance and prints:
+- Summary
+- Suggested commands
+- Risk level (`safe`, `caution`, `dangerous`)
+- Notes
+
+Flags:
+- `--model` model name (default: `mistral`)
+- `--endpoint` chat API endpoint (default: `http://localhost:11434/api/chat`)
+
+### `wtt stats`
+Shows top `10` most-used commands from the last `7` days.
+
+## Security note
+- Database at `$WTT_DB` is unencrypted.
+- To avoid logging a command, start it with a leading space.
+- Add ignore patterns in `scripts/wtt-preexec.zsh`.
 
 ## TODO
-- [ ] Make search fuzzy
-- [ ] Add `crumb stats`commnd + flags
-- [ ] Add more support for flags
-- [ ] Autocompletion helpers, `crumb run X`
-- [ ] Make install easier
-- [ ] Make it work with different shells
-- [ ] Move where database is stored

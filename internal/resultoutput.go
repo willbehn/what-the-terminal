@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"willbehn/ht/models"
+	"willbehn/what-the-terminal/models"
 )
 
 func ResultOutputShort(results []models.CmdEvent) {

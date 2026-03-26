@@ -1,4 +1,4 @@
-module willbehn/ht
+module willbehn/what-the-terminal
 
 go 1.24.0
 

@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"willbehn/ht/internal"
+	"willbehn/what-the-terminal/internal"
 
 	"github.com/spf13/cobra"
 	_ "modernc.org/sqlite"

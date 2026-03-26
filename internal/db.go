@@ -7,7 +7,7 @@ import (
 )
 
 func OpenDB() (*sql.DB, error) {
-	path := os.Getenv("CRUMB_DB")
+	path := os.Getenv("WTT_DB")
 	if path == "" {
 		return nil, fmt.Errorf("invalid path to db")
 	}

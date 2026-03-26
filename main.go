@@ -1,10 +1,9 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package main
 
-import "willbehn/ht/cmd"
+import "willbehn/what-the-terminal/cmd"
 
 func main() {
 	cmd.Execute()

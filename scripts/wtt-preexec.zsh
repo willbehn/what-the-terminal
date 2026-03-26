@@ -22,7 +22,7 @@ _clis_preexec() {
   local first=$words[1]
 
   # skipper egne kommandoer
-  [[ $first == $CRUMB_BIN || $first == "cb" ]] && return
+  [[ $first == $WTT_BIN || $first == "wtt" ]] && return
 
   # skipper sudo kommandoer
   [[ $first == sudo ]] && return
@@ -39,7 +39,7 @@ _clis_preexec() {
 
   # json laget med jq pipes til record cmd. Non blocking (&) og gir ingen return verdi (!)
  
-  "$CRUMB_BIN" record \
+  "$WTT_BIN" record \
   --cmd "$line" \
   --dir "$PWD" \
   --ts "$EPOCHSECONDS" \

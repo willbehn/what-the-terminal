@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"willbehn/ht/internal"
-	"willbehn/ht/models"
+	"willbehn/what-the-terminal/internal"
+	"willbehn/what-the-terminal/models"
 
 	"github.com/spf13/cobra"
 	_ "modernc.org/sqlite"
